@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Exness | Premium Trading Broker</title>
-    <!-- Google Fonts & Simple Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Exness | Mejora tu forma de trading</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -19,407 +21,405 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, #0a0c12 0%, #0f111a 100%);
+            background: radial-gradient(circle at 20% 30%, #0a0c18, #05070f);
+            min-height: 100vh;
+            color: #eef2ff;
+        }
+
+        /* ----- LOGIN / REGISTRO CARD (estilo imagen) ----- */
+        .auth-wrapper {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
-            color: #eef2ff;
         }
-
-        /* Modern glassmorphic card */
-        .auth-container {
-            background: rgba(18, 22, 35, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 2.5rem;
-            border: 1px solid rgba(68, 78, 116, 0.4);
-            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(71, 85, 125, 0.2) inset;
+        .auth-card {
+            background: rgba(12, 16, 28, 0.94);
+            backdrop-filter: blur(16px);
+            border-radius: 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.8);
             width: 100%;
-            max-width: 490px;
+            max-width: 520px;
             overflow: hidden;
             transition: all 0.3s ease;
         }
-
-        /* Header with broker identity */
-        .brand-header {
-            padding: 2rem 2rem 0.5rem 2rem;
+        .hero-section {
+            padding: 2rem 1.8rem 1.2rem;
             text-align: center;
-            border-bottom: 1px solid rgba(71, 85, 125, 0.4);
+            background: linear-gradient(to bottom, rgba(20, 28, 52, 0.5), transparent);
         }
-
-        .logo {
-            display: flex;
+        .badge-icon {
+            background: #1E293B;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 0.75rem;
+            gap: 8px;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #94A3F8;
+            margin-bottom: 1rem;
         }
-
-        .logo i {
-            font-size: 2.3rem;
-            color: #3b82f6;
-            text-shadow: 0 0 8px rgba(59,130,246,0.5);
-        }
-
-        .logo h1 {
+        .main-title {
             font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #FFFFFF 0%, #94a3f8 100%);
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFFFFF, #A5B4FC, #60A5FA);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.5px;
+            margin-bottom: 0.75rem;
         }
-
-        .tagline {
-            font-size: 0.85rem;
-            color: #9ca3cf;
-            margin-top: 6px;
-            font-weight: 500;
+        .desc-text {
+            font-size: 0.9rem;
+            color: #B9C3E6;
+            margin-bottom: 1.2rem;
         }
-
-        /* Tab switcher */
-        .tabs {
+        .btn-group {
             display: flex;
-            padding: 1.5rem 2rem 0 2rem;
-            gap: 1.25rem;
-            border-bottom: 1px solid rgba(71, 85, 125, 0.3);
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 0.5rem 0 0.5rem;
         }
-
+        .btn-primary {
+            background: linear-gradient(95deg, #2563EB, #3B82F6);
+            border: none;
+            padding: 0.7rem 1.6rem;
+            border-radius: 3rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-outline-light {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #3B4A6E;
+            padding: 0.7rem 1.6rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            color: #CBD5E1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .features-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.8rem;
+            padding: 1rem 1.8rem;
+            border-top: 1px solid rgba(59, 91, 140, 0.3);
+            background: rgba(0,0,0,0.2);
+        }
+        .feature-item {
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #B9C3E6;
+        }
+        .tabs-auth {
+            display: flex;
+            padding: 0 1.8rem;
+            gap: 2rem;
+            border-bottom: 1px solid rgba(59, 91, 140, 0.4);
+        }
         .tab-btn {
             background: transparent;
             border: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            padding: 0.6rem 0;
+            padding: 0.9rem 0;
             cursor: pointer;
-            color: #9ca3cf;
-            transition: all 0.2s;
+            color: #9CA3CF;
             font-family: inherit;
-            width: 50%;
-            text-align: center;
-            border-bottom: 2px solid transparent;
+            position: relative;
         }
-
         .tab-btn.active {
-            color: #3b82f6;
-            border-bottom: 2px solid #3b82f6;
+            color: #3B82F6;
         }
-
-        /* Forms */
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #3B82F6;
+        }
         .form-panel {
-            padding: 2rem 2rem 2rem 2rem;
-            transition: 0.2s;
+            padding: 1.8rem;
         }
-
         .hidden-panel {
             display: none;
         }
-
         .input-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             position: relative;
         }
-
         .input-group i {
             position: absolute;
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: #6b7280;
-            font-size: 1.1rem;
+            color: #6B7280;
         }
-
         .input-group input {
             width: 100%;
-            padding: 0.9rem 1rem 0.9rem 2.8rem;
-            background: rgba(12, 15, 27, 0.8);
-            border: 1px solid #2d3348;
+            padding: 0.85rem 1rem 0.85rem 2.6rem;
+            background: #0F1222;
+            border: 1px solid #2D334A;
             border-radius: 1.2rem;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #f0f3ff;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #F1F5F9;
         }
-
         .input-group input:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: #3B82F6;
             box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
-            background: #0b0e19;
         }
-
-        .input-group input::placeholder {
-            color: #4b556b;
-            font-weight: 400;
-        }
-
         .btn-action {
             width: 100%;
-            background: linear-gradient(95deg, #2563eb, #3b82f6);
+            background: linear-gradient(95deg, #2563EB, #3B82F6);
             border: none;
-            padding: 0.9rem;
-            border-radius: 1.5rem;
+            padding: 0.85rem;
+            border-radius: 1.8rem;
             font-weight: 700;
-            font-size: 1rem;
             color: white;
-            font-family: inherit;
             cursor: pointer;
-            transition: all 0.2s;
             margin-top: 0.5rem;
-            box-shadow: 0 8px 20px -6px #1e40af40;
         }
-
-        .btn-action:hover {
-            background: linear-gradient(95deg, #1d4ed8, #2563eb);
-            transform: scale(0.98);
-            box-shadow: 0 4px 12px -4px #1e3a8a;
-        }
-
         .message-area {
-            margin-top: 1.25rem;
-            font-size: 0.85rem;
+            margin-top: 1rem;
+            font-size: 0.8rem;
             text-align: center;
-            padding: 0.5rem;
+            padding: 0.4rem;
             border-radius: 1rem;
-            background: rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(4px);
         }
-
-        .error-msg {
-            color: #f87171;
-        }
-
-        .success-msg {
-            color: #4ade80;
-        }
-
+        .error-msg { color: #F87171; background: rgba(248,113,113,0.1);}
+        .success-msg { color: #4ADE80; background: rgba(74,222,128,0.1);}
         .info-text {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-align: center;
-            margin-top: 1.2rem;
-            color: #6b7288;
+            margin-top: 1rem;
+            color: #7C85A6;
         }
 
-        /* Dashboard / main area after login */
-        .dashboard {
-            display: none;
-            background: rgba(12, 15, 27, 0.9);
+        /* ----- DASHBOARD HOME (depósito USDT + credenciales) ----- */
+        .dashboard-home {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        .navbar {
+            background: rgba(10, 14, 23, 0.95);
             backdrop-filter: blur(12px);
-            border-radius: 2.5rem;
-            border: 1px solid rgba(68, 78, 116, 0.5);
-            width: 100%;
-            max-width: 680px;
-            padding: 2rem;
-        }
-
-        .dashboard-header {
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #2d3348;
         }
-
-        .user-greeting h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-        }
-
-        .user-greeting p {
-            color: #9ca3cf;
-            font-size: 0.8rem;
-        }
-
-        .logout-btn {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid #ef444450;
-            padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            color: #fca5a5;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .logout-btn:hover {
-            background: #ef4444;
-            color: white;
-            border-color: #ef4444;
-        }
-
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .card {
-            background: #0f1222;
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            border: 1px solid #282e44;
-        }
-
-        .card .label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #8b92b0;
-        }
-
-        .card .value {
-            font-size: 1.9rem;
-            font-weight: 700;
-            margin-top: 0.5rem;
-            color: #e2e8ff;
-        }
-
-        .card i {
-            margin-right: 8px;
-            font-size: 1.2rem;
-            color: #3b82f6;
-        }
-
-        .market-feed {
-            background: #0b0e1a;
-            border-radius: 1.2rem;
-            padding: 1rem;
-        }
-
-        .market-feed h4 {
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .ticker {
+        .logo-area {
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
         }
-
-        .ticker-item {
-            background: #13172a;
-            padding: 0.5rem 1rem;
+        .logo-area i { font-size: 1.8rem; color: #3b82f6; }
+        .logo-area h1 { font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg,#fff,#7c8ef8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .user-info-nav { display: flex; align-items: center; gap: 1rem; background: rgba(25,32,55,0.7); padding: 0.4rem 1.2rem; border-radius: 2rem; }
+        .logout-nav { background: rgba(239,68,68,0.2); border: none; color: #fca5a5; padding: 0.4rem 1rem; border-radius: 1.5rem; cursor: pointer; font-weight: 500; }
+        .logout-nav:hover { background: #ef4444; color: white; }
+        .welcome-banner {
+            background: linear-gradient(125deg, rgba(59,130,246,0.15), rgba(16,25,55,0.6));
             border-radius: 2rem;
-            font-size: 0.8rem;
-            font-weight: 500;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(59,130,246,0.3);
         }
-
-        .footer-note {
-            font-size: 0.7rem;
-            text-align: center;
-            margin-top: 2rem;
-            color: #5b6380;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
-
-        @media (max-width: 550px) {
-            .auth-container, .dashboard {
-                margin: 0 0.5rem;
-                padding: 0 0.5rem;
-            }
-            .form-panel {
-                padding: 1.5rem;
-            }
+        .stat-card {
+            background: rgba(18, 24, 40, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #252c44;
         }
+        .stat-title { font-size: 0.75rem; text-transform: uppercase; color: #8b92b0; display: flex; gap: 8px; }
+        .stat-value { font-size: 2rem; font-weight: 800; margin-top: 0.5rem; }
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 880px) { .two-columns { grid-template-columns: 1fr; } }
+        .deposit-card, .credentials-card {
+            background: rgba(12, 16, 28, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 1.8rem;
+            border: 1px solid #2a2f48;
+            overflow: hidden;
+        }
+        .card-header { padding: 1.2rem 1.5rem; background: rgba(0,0,0,0.3); border-bottom: 1px solid #232842; font-weight: 700; font-size: 1.1rem; }
+        .card-body { padding: 1.5rem; }
+        .usdt-address {
+            background: #05070f;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .copy-btn { background: #1e293b; border: none; padding: 0.3rem 1rem; border-radius: 2rem; color: #94a3f8; cursor: pointer; }
+        .qr-container { display: flex; justify-content: center; margin: 1rem 0; background: white; border-radius: 1rem; width: fit-content; margin-left: auto; margin-right: auto; padding: 0.5rem; }
+        .btn-deposit {
+            width: 100%;
+            background: linear-gradient(95deg, #f0b90b, #f5a623);
+            border: none;
+            padding: 0.9rem;
+            border-radius: 1.5rem;
+            font-weight: 800;
+            color: #0a0c18;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        .alert-deposit { background: #1e293b; border-left: 4px solid #f0b90b; padding: 0.8rem; border-radius: 1rem; font-size: 0.75rem; margin-top: 1rem; }
+        .credentials-display { background: #0b0e1a; border-radius: 1.2rem; padding: 1rem; margin: 1rem 0; }
+        .cred-row { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0; border-bottom: 1px solid #1f253e; flex-wrap: wrap; gap: 8px; }
+        .cred-label { font-weight: 500; color: #9ca3cf; }
+        .cred-value { font-family: monospace; font-weight: 600; background: #00000030; padding: 0.2rem 0.6rem; border-radius: 0.6rem; }
+        .server-badge { background: #1e3a8a60; border-radius: 2rem; padding: 0.2rem 0.8rem; }
+        .market-table { background: rgba(12, 16, 28, 0.8); border-radius: 1.5rem; padding: 1rem; margin-top: 1rem; }
+        .market-row { display: flex; justify-content: space-between; padding: 0.7rem; border-bottom: 1px solid #1f253e; }
+        .positive { color: #4ade80; }
+        .negative { color: #f87171; }
+        .footer { text-align: center; padding: 1rem; font-size: 0.7rem; color: #5b6380; }
     </style>
 </head>
 <body>
 
-<!-- Authentication Container (Login / Register) -->
-<div id="authContainer" class="auth-container">
-    <div class="brand-header">
-        <div class="logo">
-            <i class="fas fa-chart-line"></i>
-            <h1>exness</h1>
+<!-- ======================= SECCIÓN LOGIN / REGISTRO ======================= -->
+<div id="authSection" class="auth-wrapper">
+    <div class="auth-card">
+        <div class="hero-section">
+            <div class="badge-icon"><i class="fas fa-chart-line"></i> Broker global · regulado</div>
+            <div class="main-title">Mejora tu forma de hacer trading</div>
+            <div class="desc-text">Haz inversiones online con el broker minorista más grande del mundo y disfruta de unas condiciones mejores que las del mercado.</div>
+            <div class="btn-group">
+                <button class="btn-primary" id="heroRegisterBtn"><i class="fas fa-user-plus"></i> Regístrate</button>
+                <button class="btn-outline-light" id="heroDemoBtn"><i class="fas fa-chart-simple"></i> Prueba demo gratis</button>
+            </div>
         </div>
-        <div class="tagline">Trade smarter · Zero spreads · Global broker</div>
-    </div>
-    <div class="tabs">
-        <button class="tab-btn active" id="loginTabBtn">Sign In</button>
-        <button class="tab-btn" id="registerTabBtn">Create Account</button>
-    </div>
-
-    <!-- Login Form -->
-    <div id="loginPanel" class="form-panel">
-        <div class="input-group">
-            <i class="fas fa-envelope"></i>
-            <input type="email" id="loginEmail" placeholder="Email address" autocomplete="email">
+        <div class="features-grid">
+            <div class="feature-item"><i class="fas fa-shield-alt"></i> Confiable desde 2008</div>
+            <div class="feature-item"><i class="fas fa-certificate"></i> Múltiples licencias</div>
+            <div class="feature-item"><i class="fas fa-headset"></i> Atención 24/7</div>
+            <div class="feature-item"><i class="fas fa-lock"></i> PCI DSS</div>
         </div>
-        <div class="input-group">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+        <div class="tabs-auth">
+            <button class="tab-btn active" id="loginTabBtn">Iniciar sesión</button>
+            <button class="tab-btn" id="registerTabBtn">Crear cuenta</button>
         </div>
-        <button class="btn-action" id="doLoginBtn"><i class="fas fa-sign-in-alt"></i> Log in to Exness</button>
-        <div id="loginMessage" class="message-area"></div>
-        <div class="info-text"><i class="fas fa-shield-alt"></i> Secure & regulated · Real trading environment</div>
-    </div>
-
-    <!-- Register Form -->
-    <div id="registerPanel" class="form-panel hidden-panel">
-        <div class="input-group">
-            <i class="fas fa-envelope"></i>
-            <input type="email" id="regEmail" placeholder="Email address" autocomplete="off">
+        <!-- Login -->
+        <div id="loginPanel" class="form-panel">
+            <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="loginEmail" placeholder="Correo electrónico"></div>
+            <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="Contraseña"></div>
+            <button class="btn-action" id="doLoginBtn"><i class="fas fa-sign-in-alt"></i> Acceder a Exness</button>
+            <div id="loginMessage" class="message-area"></div>
+            <div class="info-text"><i class="fas fa-chart-line"></i> Acceso a mercado real</div>
         </div>
-        <div class="input-group">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="regPassword" placeholder="Password (min 6 characters)" autocomplete="new-password">
+        <!-- Register -->
+        <div id="registerPanel" class="form-panel hidden-panel">
+            <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="regEmail" placeholder="Correo electrónico"></div>
+            <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="regPassword" placeholder="Contraseña (mínimo 6 caracteres)"></div>
+            <div class="input-group"><i class="fas fa-check-circle"></i><input type="password" id="regConfirm" placeholder="Confirmar contraseña"></div>
+            <button class="btn-action" id="doRegisterBtn"><i class="fas fa-rocket"></i> Abrir cuenta real</button>
+            <div id="regMessage" class="message-area"></div>
+            <div class="info-text"><i class="fas fa-chart-simple"></i> Sin comisiones ocultas</div>
         </div>
-        <div class="input-group">
-            <i class="fas fa-check-circle"></i>
-            <input type="password" id="regConfirm" placeholder="Confirm password">
-        </div>
-        <button class="btn-action" id="doRegisterBtn"><i class="fas fa-user-plus"></i> Open Live Account</button>
-        <div id="regMessage" class="message-area"></div>
-        <div class="info-text"><i class="fas fa-chart-simple"></i> Real-time quotes · Leverage up to 1:2000</div>
     </div>
 </div>
 
-<!-- Dashboard Panel (hidden until login) -->
-<div id="dashboardPanel" class="dashboard">
-    <div class="dashboard-header">
-        <div class="user-greeting">
-            <h3><i class="fas fa-waveform"></i> Welcome, <span id="userEmailDisplay">Trader</span></h3>
-            <p>Exness Elite | Verified Account</p>
-        </div>
-        <button class="logout-btn" id="logoutBtn"><i class="fas fa-door-open"></i> Disconnect</button>
-    </div>
-    <div class="stats-cards">
-        <div class="card">
-            <div class="label"><i class="fas fa-dollar-sign"></i> Available Balance</div>
-            <div class="value">$12,450.80</div>
-        </div>
-        <div class="card">
-            <div class="label"><i class="fas fa-chart-line"></i> Total Equity</div>
-            <div class="value">$14,230.45</div>
-        </div>
-        <div class="card">
-            <div class="label"><i class="fas fa-percent"></i> Today's P/L</div>
-            <div class="value" style="color: #4ade80;">+$342.20</div>
+<!-- ======================= DASHBOARD HOME (depósito + credenciales) ======================= -->
+<div id="dashboardHome" style="display: none;">
+    <div class="navbar">
+        <div class="logo-area"><i class="fas fa-chart-line"></i><h1>exness</h1></div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <div class="user-info-nav"><i class="fas fa-user-circle"></i><span id="navUserName">Trader</span></div>
+            <button class="logout-nav" id="logoutDashboardBtn"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
         </div>
     </div>
-    <div class="market-feed">
-        <h4><i class="fas fa-globe"></i> Live Market Snapshot</h4>
-        <div class="ticker" id="tickerList">
-            <div class="ticker-item">EUR/USD: 1.08932 <span style="color:#4ade80;">▲0.12%</span></div>
-            <div class="ticker-item">GBP/JPY: 190.52 <span style="color:#f87171;">▼0.08%</span></div>
-            <div class="ticker-item">BTC/USD: $63,214 <span style="color:#4ade80;">▲2.4%</span></div>
-            <div class="ticker-item">XAU/USD: $2,352.10 <span style="color:#4ade80;">▲0.31%</span></div>
+    <div class="dashboard-home">
+        <div class="welcome-banner">
+            <h2><i class="fas fa-tachometer-alt"></i> Trading Dashboard</h2>
+            <p>Depósito mínimo 50 USDT (TRC20) para activar tus credenciales de trading MT5</p>
         </div>
-    </div>
-    <div class="footer-note">
-        <i class="fas fa-chart-simple"></i> Demo trading environment — real market conditions
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-title"><i class="fas fa-wallet"></i> Balance Total</div><div class="stat-value" id="totalBalance">$0.00</div></div>
+            <div class="stat-card"><div class="stat-title"><i class="fas fa-chart-simple"></i> Equity</div><div class="stat-value" id="totalEquity">$0.00</div></div>
+            <div class="stat-card"><div class="stat-title"><i class="fas fa-percent"></i> Profit Hoy</div><div class="stat-value" id="todayProfit">$0.00</div></div>
+        </div>
+        <div class="two-columns">
+            <div class="deposit-card">
+                <div class="card-header"><i class="fab fa-usdt"></i> Depósito USDT (TRC20)</div>
+                <div class="card-body">
+                    <div style="font-size: 0.85rem;">🔗 Red: <strong>TRC20 (Tron Network)</strong></div>
+                    <div class="usdt-address"><span id="usdtAddress">TCAgtcQNCecCRn5fV7ZrMa5euFzSyzPUu5</span><button class="copy-btn" id="copyAddressBtn"><i class="fas fa-copy"></i> Copiar</button></div>
+                    <div id="qrCodeContainer" class="qr-container"></div>
+                    <button class="btn-deposit" id="confirmDepositBtn"><i class="fas fa-arrow-down"></i> Confirmar Depósito</button>
+                    <div class="alert-deposit"><i class="fas fa-clock"></i> Al confirmar tu depósito, se activarán tus credenciales MT5 y el balance se actualizará automáticamente.</div>
+                </div>
+            </div>
+            <div class="credentials-card" id="credentialsCard">
+                <div class="card-header"><i class="fas fa-key"></i> Credenciales de Trading MT5</div>
+                <div class="card-body">
+                    <div id="credentialsPlaceholder" style="text-align: center; color: #7c85a5; padding: 1.5rem;">
+                        <i class="fas fa-lock" style="font-size: 2rem;"></i>
+                        <p style="margin-top: 0.8rem;">🔒 Realiza un depósito para desbloquear tus datos de acceso a MetaTrader 5</p>
+                        <p style="font-size: 0.7rem;">Mínimo 50 USDT · Activación inmediata</p>
+                    </div>
+                    <div id="credentialsContent" style="display: none;">
+                        <div class="credentials-display">
+                            <div class="cred-row"><span class="cred-label"><i class="fas fa-user"></i> Usuario MT5:</span><span class="cred-value" id="displayUser">---</span></div>
+                            <div class="cred-row"><span class="cred-label"><i class="fas fa-lock"></i> Contraseña:</span><span class="cred-value" id="displayPass">---</span></div>
+                            <div class="cred-row"><span class="cred-label"><i class="fas fa-server"></i> Servidor:</span><span class="cred-value server-badge" id="displayServer">---</span></div>
+                        </div>
+                        <div class="alert-deposit" style="border-left-color:#4ade80;" id="successCredAlert"><i class="fas fa-check-circle"></i> Credenciales activas. Inicia sesión en MT5 con estos datos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="market-table">
+            <h4 style="margin-bottom: 1rem;"><i class="fas fa-chart-line"></i> Mercados en Vivo (Cotizaciones)</h4>
+            <div id="marketList">
+                <div class="market-row"><span>EUR/USD</span><span id="eurusd">1.08932</span><span class="positive">▲ 0.12%</span></div>
+                <div class="market-row"><span>GBP/JPY</span><span id="gbpjpy">190.52</span><span class="negative">▼ 0.08%</span></div>
+                <div class="market-row"><span>BTC/USD</span><span id="btc">63,214</span><span class="positive">▲ 2.4%</span></div>
+                <div class="market-row"><span>XAU/USD (Gold)</span><span id="gold">2,352.10</span><span class="positive">▲ 0.31%</span></div>
+            </div>
+        </div>
+        <div class="footer"><i class="fas fa-shield-alt"></i> Depósitos simulados en USDT (TRC20) · Credenciales fijas para demostración</div>
     </div>
 </div>
 
 <script>
-    // ---------- Firebase Configuration (Exact from user's provided config) ----------
+    // ========== FIREBASE CONFIG ==========
     const firebaseConfig = {
         apiKey: "AIzaSyCpFnSLx-ZUq6j27T-w_nvsdSvUrNs688g",
         authDomain: "heyding-kayser.firebaseapp.com",
@@ -427,251 +427,209 @@
         projectId: "heyding-kayser",
         storageBucket: "heyding-kayser.firebasestorage.app",
         messagingSenderId: "231005618306",
-        appId: "1:231005618306:web:b349379b513145b6e6349b",
-        measurementId: "G-0F9T839VVZ"
+        appId: "1:231005618306:web:b349379b513145b6e6349b"
     };
-
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // DOM Elements
-    const authContainer = document.getElementById('authContainer');
-    const dashboardPanel = document.getElementById('dashboardPanel');
+    // Credenciales fijas MT5
+    const MT5_USER = "163101548";
+    const MT5_PASSWORD = "Exness123456@";
+    const MT5_SERVER = "EXNESS-MT5Real22";
+    const DEPOSIT_AMOUNT = 500.00;  // monto simulado
+
+    // Elementos UI auth
+    const authSection = document.getElementById('authSection');
+    const dashboardHome = document.getElementById('dashboardHome');
     const loginPanel = document.getElementById('loginPanel');
     const registerPanel = document.getElementById('registerPanel');
     const loginTab = document.getElementById('loginTabBtn');
     const registerTab = document.getElementById('registerTabBtn');
     const loginBtn = document.getElementById('doLoginBtn');
     const registerBtn = document.getElementById('doRegisterBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const userEmailSpan = document.getElementById('userEmailDisplay');
+    const heroRegister = document.getElementById('heroRegisterBtn');
+    const heroDemo = document.getElementById('heroDemoBtn');
+    const loginMsg = document.getElementById('loginMessage');
+    const regMsg = document.getElementById('regMessage');
+    const logoutDashboard = document.getElementById('logoutDashboardBtn');
+    const navUserName = document.getElementById('navUserName');
 
-    // Message areas
-    const loginMessageDiv = document.getElementById('loginMessage');
-    const regMessageDiv = document.getElementById('regMessage');
+    // Elementos dashboard (depósito)
+    const balanceSpan = document.getElementById('totalBalance');
+    const equitySpan = document.getElementById('totalEquity');
+    const profitSpan = document.getElementById('todayProfit');
+    const placeholderDiv = document.getElementById('credentialsPlaceholder');
+    const credentialsDiv = document.getElementById('credentialsContent');
+    const displayUserSpan = document.getElementById('displayUser');
+    const displayPassSpan = document.getElementById('displayPass');
+    const displayServerSpan = document.getElementById('displayServer');
+    const confirmDepositBtn = document.getElementById('confirmDepositBtn');
+    const copyAddressBtn = document.getElementById('copyAddressBtn');
+    const usdtAddressSpan = document.getElementById('usdtAddress');
 
-    // Helper: Clear messages after few seconds
-    function setMessage(element, message, isError = true) {
-        element.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${message}`;
+    // Estados locales del dashboard
+    let depositCompleted = false;
+    let currentBalance = 0.00;
+    let currentUserEmail = "";
+
+    // ---------- Helper UI mensajes ----------
+    function setMessage(element, text, isError = true) {
+        element.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${text}`;
         element.className = `message-area ${isError ? 'error-msg' : 'success-msg'}`;
-        setTimeout(() => {
-            if (element.innerHTML === `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${message}`) {
-                element.innerHTML = '';
-                element.className = 'message-area';
-            }
-        }, 4000);
+        setTimeout(() => { if (element.innerHTML.includes(text)) { element.innerHTML = ''; element.className = 'message-area'; } }, 4000);
     }
 
-    // Tab switcher logic
-    function showLoginPanel() {
-        loginPanel.classList.remove('hidden-panel');
-        registerPanel.classList.add('hidden-panel');
-        loginTab.classList.add('active');
-        registerTab.classList.remove('active');
-        // clear any leftover messages
-        loginMessageDiv.innerHTML = '';
-        regMessageDiv.innerHTML = '';
-    }
+    // Mostrar/ocultar tabs login/register
+    function showLogin() { loginPanel.classList.remove('hidden-panel'); registerPanel.classList.add('hidden-panel'); loginTab.classList.add('active'); registerTab.classList.remove('active'); loginMsg.innerHTML = ''; regMsg.innerHTML = ''; }
+    function showRegister() { registerPanel.classList.remove('hidden-panel'); loginPanel.classList.add('hidden-panel'); registerTab.classList.add('active'); loginTab.classList.remove('active'); loginMsg.innerHTML = ''; regMsg.innerHTML = ''; }
+    loginTab.addEventListener('click', showLogin);
+    registerTab.addEventListener('click', showRegister);
+    heroRegister.addEventListener('click', showRegister);
+    heroDemo.addEventListener('click', () => { showLogin(); setMessage(loginMsg, 'Accede o regístrate para probar demo gratuita', false); });
 
-    function showRegisterPanel() {
-        registerPanel.classList.remove('hidden-panel');
-        loginPanel.classList.add('hidden-panel');
-        registerTab.classList.add('active');
-        loginTab.classList.remove('active');
-        loginMessageDiv.innerHTML = '';
-        regMessageDiv.innerHTML = '';
-    }
-
-    loginTab.addEventListener('click', showLoginPanel);
-    registerTab.addEventListener('click', showRegisterPanel);
-
-    // ---------- REGISTER Logic ----------
+    // Registro Firebase
     registerBtn.addEventListener('click', async () => {
         const email = document.getElementById('regEmail').value.trim();
-        const password = document.getElementById('regPassword').value;
+        const pwd = document.getElementById('regPassword').value;
         const confirm = document.getElementById('regConfirm').value;
-
-        // clear old msg
-        regMessageDiv.innerHTML = '';
-
-        if (!email || !password || !confirm) {
-            setMessage(regMessageDiv, 'All fields are required', true);
-            return;
-        }
-        if (password.length < 6) {
-            setMessage(regMessageDiv, 'Password must be at least 6 characters', true);
-            return;
-        }
-        if (password !== confirm) {
-            setMessage(regMessageDiv, 'Passwords do not match', true);
-            return;
-        }
-
+        if (!email || !pwd || !confirm) return setMessage(regMsg, 'Completa todos los campos', true);
+        if (pwd.length < 6) return setMessage(regMsg, 'Mínimo 6 caracteres', true);
+        if (pwd !== confirm) return setMessage(regMsg, 'Las contraseñas no coinciden', true);
         try {
-            // Create user with Firebase Auth
-            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-            // Success: send verification email optional, but we just show success and auto switch to login
-            setMessage(regMessageDiv, `Account created! Welcome to Exness. Please sign in.`, false);
-            // clear form
-            document.getElementById('regEmail').value = '';
-            document.getElementById('regPassword').value = '';
-            document.getElementById('regConfirm').value = '';
-            // after 1.5 seconds switch to login panel
-            setTimeout(() => {
-                showLoginPanel();
-                setMessage(loginMessageDiv, 'Account created successfully! Log in now.', false);
-            }, 1500);
-        } catch (error) {
-            let friendlyError = error.message;
-            if (error.code === 'auth/email-already-in-use') friendlyError = 'Email already registered. Use login or reset password.';
-            else if (error.code === 'auth/invalid-email') friendlyError = 'Invalid email format.';
-            else if (error.code === 'auth/weak-password') friendlyError = 'Password is too weak (min 6 chars).';
-            setMessage(regMessageDiv, friendlyError, true);
+            await auth.createUserWithEmailAndPassword(email, pwd);
+            setMessage(regMsg, 'Cuenta creada con éxito. Inicia sesión.', false);
+            document.getElementById('regEmail').value = ''; document.getElementById('regPassword').value = ''; document.getElementById('regConfirm').value = '';
+            setTimeout(() => showLogin(), 1500);
+        } catch (err) {
+            let errorMsg = err.code === 'auth/email-already-in-use' ? 'Email ya registrado' : err.message;
+            setMessage(regMsg, errorMsg, true);
         }
     });
 
-    // ---------- LOGIN Logic ----------
+    // Login Firebase
     loginBtn.addEventListener('click', async () => {
         const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        loginMessageDiv.innerHTML = '';
-
-        if (!email || !password) {
-            setMessage(loginMessageDiv, 'Please enter email and password', true);
-            return;
-        }
-
+        const pwd = document.getElementById('loginPassword').value;
+        if (!email || !pwd) return setMessage(loginMsg, 'Ingresa email y contraseña', true);
         try {
-            await auth.signInWithEmailAndPassword(email, password);
-            // On success, onAuthStateChanged will trigger the UI update, but we can also prepare:
-            setMessage(loginMessageDiv, 'Login successful! Redirecting...', false);
-            // UI will be managed by observer
-        } catch (error) {
-            let msg = 'Invalid credentials. Please try again.';
-            if (error.code === 'auth/user-not-found') msg = 'No account found with this email.';
-            else if (error.code === 'auth/wrong-password') msg = 'Incorrect password.';
-            else if (error.code === 'auth/invalid-email') msg = 'Invalid email format.';
-            else if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try later.';
-            setMessage(loginMessageDiv, msg, true);
-        }
-    });
-
-    // ---------- LOGOUT ----------
-    logoutBtn.addEventListener('click', async () => {
-        try {
-            await auth.signOut();
-            // UI will be switched by observer
+            await auth.signInWithEmailAndPassword(email, pwd);
+            // El cambio de estado redirigirá al dashboard
         } catch (err) {
-            console.error(err);
+            let msg = 'Credenciales incorrectas';
+            if (err.code === 'auth/user-not-found') msg = 'Usuario no existe. Regístrate.';
+            else if (err.code === 'auth/wrong-password') msg = 'Contraseña incorrecta.';
+            setMessage(loginMsg, msg, true);
         }
     });
 
-    // ---------- AUTH STATE OBSERVER: Show dashboard or auth container ----------
+    // Actualizar UI del dashboard (balance, credenciales)
+    function updateDashboardUI() {
+        const formattedBalance = currentBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        balanceSpan.innerText = `$${formattedBalance}`;
+        let equity = currentBalance;
+        let dailyProfit = 0;
+        if (currentBalance > 0) { equity = currentBalance * 1.005; dailyProfit = currentBalance * 0.005; }
+        equitySpan.innerText = `$${equity.toFixed(2)}`;
+        profitSpan.innerText = dailyProfit >= 0 ? `+$${dailyProfit.toFixed(2)}` : `-$${Math.abs(dailyProfit).toFixed(2)}`;
+        profitSpan.style.color = dailyProfit >= 0 ? '#4ade80' : '#f87171';
+        if (depositCompleted) {
+            placeholderDiv.style.display = 'none';
+            credentialsDiv.style.display = 'block';
+            displayUserSpan.innerText = MT5_USER;
+            displayPassSpan.innerText = MT5_PASSWORD;
+            displayServerSpan.innerText = MT5_SERVER;
+            confirmDepositBtn.innerHTML = '<i class="fas fa-check-circle"></i> Depósito Acreditado';
+            confirmDepositBtn.disabled = true;
+            confirmDepositBtn.style.opacity = '0.7';
+        } else {
+            placeholderDiv.style.display = 'flex';
+            credentialsDiv.style.display = 'none';
+            confirmDepositBtn.innerHTML = '<i class="fas fa-arrow-down"></i> Confirmar Depósito';
+            confirmDepositBtn.disabled = false;
+            confirmDepositBtn.style.opacity = '1';
+        }
+    }
+
+    // Procesar depósito (activa credenciales y asigna balance)
+    function processDeposit() {
+        if (depositCompleted) { alert("✅ Ya tienes las credenciales activadas."); return; }
+        currentBalance = DEPOSIT_AMOUNT;
+        depositCompleted = true;
+        localStorage.setItem('exness_deposit_done', 'true');
+        localStorage.setItem('exness_balance', currentBalance.toString());
+        updateDashboardUI();
+        alert(`✅ Depósito de ${DEPOSIT_AMOUNT} USDT (TRC20) confirmado.\n\n🎉 Tus credenciales de trading:\nUsuario: ${MT5_USER}\nContraseña: ${MT5_PASSWORD}\nServidor: ${MT5_SERVER}\n\nYa puedes operar en MetaTrader 5.`);
+    }
+
+    function copyAddress() { navigator.clipboard.writeText(usdtAddressSpan.innerText); alert("Dirección USDT copiada"); }
+    function generateQR() { 
+        const qrDiv = document.getElementById('qrCodeContainer'); 
+        qrDiv.innerHTML = ""; 
+        try { new QRCode(qrDiv, { text: usdtAddressSpan.innerText, width: 120, height: 120 }); } catch(e) { qrDiv.innerHTML = "<p style='color:white;'>QR no disponible</p>"; } 
+    }
+
+    // mercado dinámico
+    function updateMarketPrices() {
+        const eurusd = (1.08932 + (Math.random() * 0.002 - 0.001)).toFixed(5);
+        const gbpjpy = (190.52 + (Math.random() * 0.3 - 0.15)).toFixed(2);
+        const btc = (63214 + Math.floor(Math.random() * 400 - 200)).toFixed(0);
+        const gold = (2352.10 + (Math.random() * 1.8 - 0.9)).toFixed(2);
+        document.getElementById('eurusd').innerHTML = eurusd;
+        document.getElementById('gbpjpy').innerHTML = gbpjpy;
+        document.getElementById('btc').innerHTML = Number(btc).toLocaleString();
+        document.getElementById('gold').innerHTML = gold;
+        const rows = document.querySelectorAll('.market-row');
+        if (rows[0]) { let chg = (eurusd - 1.08932)/1.08932*100; rows[0].querySelector('.positive, .negative').innerHTML = `${chg>=0?'▲':'▼'} ${Math.abs(chg).toFixed(2)}%`; rows[0].querySelector('.positive, .negative').className = chg>=0?'positive':'negative'; }
+        if (rows[1]) { let chg = (gbpjpy - 190.52)/190.52*100; rows[1].querySelector('.positive, .negative').innerHTML = `${chg>=0?'▲':'▼'} ${Math.abs(chg).toFixed(2)}%`; rows[1].querySelector('.positive, .negative').className = chg>=0?'positive':'negative'; }
+        if (rows[2]) { let chg = (btc - 63214)/63214*100; rows[2].querySelector('.positive, .negative').innerHTML = `${chg>=0?'▲':'▼'} ${Math.abs(chg).toFixed(2)}%`; rows[2].querySelector('.positive, .negative').className = chg>=0?'positive':'negative'; }
+        if (rows[3]) { let chg = (gold - 2352.10)/2352.10*100; rows[3].querySelector('.positive, .negative').innerHTML = `${chg>=0?'▲':'▼'} ${Math.abs(chg).toFixed(2)}%`; rows[3].querySelector('.positive, .negative').className = chg>=0?'positive':'negative'; }
+    }
+
+    // Cargar persistencia local (depósito)
+    function loadLocalPersist() {
+        const saved = localStorage.getItem('exness_deposit_done');
+        const savedBal = localStorage.getItem('exness_balance');
+        if (saved === 'true') {
+            depositCompleted = true;
+            currentBalance = savedBal ? parseFloat(savedBal) : DEPOSIT_AMOUNT;
+        } else {
+            depositCompleted = false;
+            currentBalance = 0;
+        }
+        updateDashboardUI();
+    }
+
+    // Cerrar sesión desde dashboard
+    async function logoutFromDashboard() {
+        await auth.signOut();
+        localStorage.removeItem('exness_deposit_done');
+        localStorage.removeItem('exness_balance');
+    }
+
+    // Observer autenticación: muestra dashboard HOME si está logueado
     auth.onAuthStateChanged((user) => {
         if (user) {
-            // User logged in: show dashboard, hide auth container
-            authContainer.style.display = 'none';
-            dashboardPanel.style.display = 'block';
-            // Display user email (mask partially for style)
-            const email = user.email;
-            userEmailSpan.innerText = email ? email.split('@')[0] : 'Trader';
-            // Optionally set dynamic greeting
-            document.querySelector('.user-greeting h3').innerHTML = `<i class="fas fa-waveform"></i> Welcome, ${email ? email.split('@')[0] : 'Investor'}`;
-            // clear login inputs for security
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
+            authSection.style.display = 'none';
+            dashboardHome.style.display = 'block';
+            currentUserEmail = user.email || "Trader";
+            navUserName.innerText = currentUserEmail.split('@')[0];
+            loadLocalPersist();
+            generateQR();
+            updateMarketPrices();
+            setInterval(updateMarketPrices, 4500);
         } else {
-            // Show auth container, hide dashboard
-            authContainer.style.display = 'block';
-            dashboardPanel.style.display = 'none';
-            // Reset any messages and forms
+            authSection.style.display = 'flex';
+            dashboardHome.style.display = 'none';
             document.getElementById('loginEmail').value = '';
             document.getElementById('loginPassword').value = '';
-            document.getElementById('regEmail').value = '';
-            document.getElementById('regPassword').value = '';
-            document.getElementById('regConfirm').value = '';
-            loginMessageDiv.innerHTML = '';
-            regMessageDiv.innerHTML = '';
-            // Ensure login panel is visible by default
-            showLoginPanel();
+            showLogin();
         }
     });
 
-    // ---------- Additional Broker-Like Feel: dynamic ticker random updates ----------
-    function refreshMarketPrices() {
-        const tickerDiv = document.getElementById('tickerList');
-        if (!tickerDiv) return;
-        // Simulate tiny realtime movement
-        const eurusd = (1.08932 + (Math.random() * 0.0005 - 0.00025)).toFixed(5);
-        const gbpjpy = (190.52 + (Math.random() * 0.12 - 0.06)).toFixed(2);
-        const btc = (63214 + Math.floor(Math.random() * 300 - 150)).toFixed(0);
-        const gold = (2352.10 + (Math.random() * 1.2 - 0.6)).toFixed(2);
-        const eurChange = (eurusd - 1.08932).toFixed(4);
-        const eurSign = eurChange >= 0 ? '▲' : '▼';
-        const eurColor = eurChange >= 0 ? '#4ade80' : '#f87171';
-        const gbpChange = (gbpjpy - 190.52).toFixed(2);
-        const gbpSign = gbpChange >= 0 ? '▲' : '▼';
-        const btcChange = (btc - 63214);
-        const btcSign = btcChange >= 0 ? '▲' : '▼';
-        const goldChange = (gold - 2352.10).toFixed(2);
-        const goldSign = goldChange >= 0 ? '▲' : '▼';
-        tickerDiv.innerHTML = `
-            <div class="ticker-item">EUR/USD: ${eurusd} <span style="color:${eurColor}">${eurSign} ${Math.abs(eurChange*100).toFixed(2)}%</span></div>
-            <div class="ticker-item">GBP/JPY: ${gbpjpy} <span style="color:${gbpChange>=0?'#4ade80':'#f87171'}">${gbpSign} ${Math.abs(gbpChange/190.52*100).toFixed(2)}%</span></div>
-            <div class="ticker-item">BTC/USD: $${btc} <span style="color:${btcChange>=0?'#4ade80':'#f87171'}">${btcSign} ${Math.abs(btcChange/63214*100).toFixed(2)}%</span></div>
-            <div class="ticker-item">XAU/USD: $${gold} <span style="color:${goldChange>=0?'#4ade80':'#f87171'}">${goldSign} ${Math.abs(goldChange/2352.10*100).toFixed(2)}%</span></div>
-        `;
-    }
-
-    // update live ticker every 3 seconds (only if dashboard visible)
-    setInterval(() => {
-        if (dashboardPanel && dashboardPanel.style.display === 'block') {
-            refreshMarketPrices();
-        }
-    }, 3800);
-    
-    // Also randomize balance stats a little? optional spark
-    function updateBalanceAnimation() {
-        if (dashboardPanel && dashboardPanel.style.display === 'block') {
-            // subtle random walk to look dynamic
-            const balanceElem = document.querySelector('.stats-cards .card:first-child .value');
-            const equityElem = document.querySelector('.stats-cards .card:nth-child(2) .value');
-            if (balanceElem && equityElem) {
-                let currentBal = parseFloat(balanceElem.innerText.replace('$', '').replace(',', ''));
-                let currentEquity = parseFloat(equityElem.innerText.replace('$', '').replace(',', ''));
-                if (!isNaN(currentBal) && !isNaN(currentEquity)) {
-                    let deltaBal = (Math.random() * 40 - 20) * 0.1;
-                    let newBal = Math.max(1000, currentBal + deltaBal);
-                    let deltaEq = (Math.random() * 50 - 25) * 0.1;
-                    let newEq = Math.max(1000, currentEquity + deltaEq);
-                    balanceElem.innerText = `$${newBal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-                    equityElem.innerText = `$${newEq.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-                    const plElem = document.querySelector('.stats-cards .card:nth-child(3) .value');
-                    if (plElem) {
-                        let plValue = (newEq - newBal).toFixed(2);
-                        let plNum = parseFloat(plValue);
-                        plElem.innerHTML = `${plNum >= 0 ? '+' : ''}$${Math.abs(plNum).toFixed(2)}`;
-                        plElem.style.color = plNum >= 0 ? '#4ade80' : '#f87171';
-                    }
-                }
-            }
-        }
-    }
-    setInterval(() => {
-        if (dashboardPanel && dashboardPanel.style.display === 'block') updateBalanceAnimation();
-    }, 6500);
-
-    // initial market load when dashboard appears but also set immediately
-    const originalRefresh = setInterval(() => {
-        if (dashboardPanel && dashboardPanel.style.display === 'block') refreshMarketPrices();
-    }, 2000);
-
-    // Additional: Ensure default view (prevents flash)
-    window.addEventListener('load', () => {
-        auth.onAuthStateChanged(() => {});
-        refreshMarketPrices();
-    });
+    confirmDepositBtn.addEventListener('click', processDeposit);
+    copyAddressBtn.addEventListener('click', copyAddress);
+    logoutDashboard.addEventListener('click', logoutFromDashboard);
+    window.addEventListener('load', () => { generateQR(); });
 </script>
 </body>
 </html>
